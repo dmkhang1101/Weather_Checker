@@ -6,20 +6,15 @@ import Button from '@mui/material/Button';
 
 function Home() {
     const navigate = useNavigate()
-    const [location, setLocation] = useState(null);
-    const [weather, setWeather] = useState(null);
     const [name, setName] = useState('')
 
     function fetchCurrentWeather(latitude,longitude) {
         fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
             .then(response => response.json())
             .then(data => {
-                setWeather(data);
                 setName(data.name)
                 console.log(data);
-                localStorage.setItem('name',name)
-                localStorage.setItem('location',location)
-                localStorage.setItem('current_weather',weather)
+                localStorage.setItem('data',JSON.stringify(data))
                 navigate('/result')
             })
           .catch(error => alert(error));
@@ -36,7 +31,6 @@ function Home() {
     function success(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
-        setLocation({ latitude, longitude });
         fetchCurrentWeather(latitude,longitude)
     }
     
@@ -50,7 +44,6 @@ function Home() {
             .then(data => {
                 const latitude = data[0].lat
                 const longitude = data[0].lon
-                setLocation({latitude, longitude})
                 fetchCurrentWeather(latitude,longitude)
             })
             .catch(error => alert(error))
