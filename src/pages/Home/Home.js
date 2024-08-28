@@ -1,12 +1,29 @@
 import './Home.css'
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 function Home() {
+    const navigate = useNavigate()
     const [location, setLocation] = useState(null);
     const [weather, setWeather] = useState(null);
     const [name, setName] = useState('')
+
+    function fetchCurrentWeather(latitude,longitude) {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
+            .then(response => response.json())
+            .then(data => {
+                setWeather(data);
+                setName(data.name)
+                console.log(data);
+                localStorage.setItem('name',name)
+                localStorage.setItem('location',location)
+                localStorage.setItem('current_weather',weather)
+                navigate('/result')
+            })
+          .catch(error => console.log(error));
+    }
 
     function handleCurrentLocation() {
         if (navigator.geolocation) {
@@ -20,16 +37,7 @@ function Home() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         setLocation({ latitude, longitude });
-        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-    
-        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
-          .then(response => response.json())
-          .then(data => {
-            setWeather(data);
-            setName(data.name)
-            console.log(data);
-        })
-          .catch(error => console.log(error));
+        fetchCurrentWeather(latitude,longitude)
     }
     
     function error() {
@@ -43,16 +51,8 @@ function Home() {
                 const latitude = data[0].lat
                 const longitude = data[0].lon
                 setLocation({latitude, longitude})
-                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
-                    .then(response => response.json())
-                    .then(data => {
-                        setWeather(data);
-                        setName(data.name)
-                        console.log(data);
-                    })
-                .catch(error => console.log(error));
+                fetchCurrentWeather(latitude,longitude)
             })
-
             .catch(error => console.log(error))
     }
 
