@@ -22,14 +22,14 @@ function Home() {
                 localStorage.setItem('current_weather',weather)
                 navigate('/result')
             })
-          .catch(error => console.log(error));
+          .catch(error => alert(error));
     }
 
     function handleCurrentLocation() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(success, error);
         } else {
-          console.log("Geolocation not supported");
+          alert("Geolocation not supported");
         }
     }
 
@@ -41,7 +41,7 @@ function Home() {
     }
     
     function error() {
-        console.log("Unable to retrieve your location");
+        alert("Unable to retrieve your location");
     }
 
     function handleSubmit() {
@@ -53,12 +53,12 @@ function Home() {
                 setLocation({latitude, longitude})
                 fetchCurrentWeather(latitude,longitude)
             })
-            .catch(error => console.log(error))
+            .catch(error => alert(error))
     }
 
     return (
       <div className="Home">
-        <h1>Welcome to Weather Checker</h1>
+        <h1>Welcome to Weather Checker.</h1>
         <p>Please provide location for the latest weather condition and 5-day forecasts.</p>
             <div className = "wrapper">
                 <TextField
