@@ -8,17 +8,16 @@ function Home() {
     const navigate = useNavigate()
     const [name, setName] = useState('')
 
-    function fetchResult(latitude,longitude) {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
+    async function fetchResult(latitude,longitude) {
+        await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
             .then(response => response.json())
             .then(data => {
-                setName(data.name)
                 console.log(data);
                 localStorage.setItem('data',JSON.stringify(data))
             })
             .catch(error => alert(error));
 
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9`)
+        await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
             .then(response => response.json())
             .then(data => {
                 console.log(data.list);

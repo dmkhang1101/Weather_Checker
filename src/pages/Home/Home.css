@@ -7,6 +7,9 @@
     padding: 50px 50px;
 }
 
+p{
+    font-size: 20px;
+}
 .wrapper{
     padding : 20px;
     display: flex;
