@@ -56,5 +56,5 @@ function Result() {
       </div>
     );
   }
- 
+
   export default Result;

@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 function Home() {
     const navigate = useNavigate()
     const [name, setName] = useState('')
-
+    console.log(process.env.REACT_APP_API_KEY)
     async function fetchResult(latitude,longitude) {
         await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=3365e5d938ad16f6efefd335a797cfa9&units=metric`)
             .then(response => response.json())
